@@ -1,37 +1,82 @@
+```python
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
-st.title("Tablero para dibujo")
+# Configuración de la página
+st.set_page_config(
+    page_title="Mi espacio creativo",
+    page_icon="🎨",
+    layout="wide"
+)
 
+# Título principal
+st.title("🎨 Mi espacio creativo")
+st.write("Un pequeño tablero para dibujar, experimentar y dejar volar la creatividad.")
+
+# Panel lateral
 with st.sidebar:
-    st.subheader("Propiedades del Tablero")
-    
-    # Canvas dimensions (moved to the top)
-    st.subheader("Dimensiones del Tablero")
-    st.write("Ancho del tablero:")
-    canvas_width =  600 #st.slider("Ancho del tablero", 300, 700, 500, 50)
-    
-    canvas_height = 400 #st.slider("Alto del tablero", 200, 600, 300, 50)
-    st.write(canvas_width)
-    st.write("Alto del tablero:")
-    st.write(canvas_height)
-    
-    # Drawing mode selector
-    drawing_mode = st.selectbox(
-        "Herramienta de Dibujo:",
-        ("freedraw", "line", "rect", "circle", "transform", "polygon", "point"),
-    )
-    
-    # Stroke width slider
-    stroke_width = st.slider('Selecciona el ancho de línea', 1, 30, 15)
-    
-    # Stroke color picker
-    stroke_color = st.color_picker("Color de trazo", "#FFFFFF")
-    
-    # Background color
-    bg_color = st.color_picker("Color de fondo", "#000000")
+    st.header("⚙️ Herramientas")
 
-# Create a canvas component with dynamic key
+    # Dimensiones
+    st.subheader("📐 Tamaño del tablero")
+
+    canvas_width = 600
+    canvas_height = 400
+
+    st.write(f"Ancho: **{canvas_width}px**")
+    st.write(f"Alto: **{canvas_height}px**")
+
+    st.divider()
+
+    # Herramienta
+    st.subheader("🖌️ Herramienta")
+
+    drawing_mode = st.selectbox(
+        "Selecciona una herramienta:",
+        (
+            "freedraw",
+            "line",
+            "rect",
+            "circle",
+            "transform",
+            "polygon",
+            "point"
+        ),
+        format_func=lambda herramienta: {
+            "freedraw": "✏️ Dibujo libre",
+            "line": "📏 Línea",
+            "rect": "⬜ Rectángulo",
+            "circle": "⭕ Círculo",
+            "transform": "🔄 Transformar",
+            "polygon": "🔷 Polígono",
+            "point": "📍 Punto"
+        }[herramienta]
+    )
+
+    # Grosor
+    stroke_width = st.slider(
+        "Grosor del trazo",
+        min_value=1,
+        max_value=30,
+        value=5
+    )
+
+    # Colores
+    st.subheader("🎨 Colores")
+
+    stroke_color = st.color_picker(
+        "Color del trazo",
+        "#FFFFFF"
+    )
+
+    bg_color = st.color_picker(
+        "Color del fondo",
+        "#000000"
+    )
+
+# Área principal del dibujo
+st.subheader("Tu tablero")
+
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",
     stroke_width=stroke_width,
@@ -40,5 +85,10 @@ canvas_result = st_canvas(
     height=canvas_height,
     width=canvas_width,
     drawing_mode=drawing_mode,
-    key=f"canvas_{canvas_width}_{canvas_height}"  # Dynamic key based on dimensions
+    key=f"canvas_{canvas_width}_{canvas_height}"
 )
+
+# Información debajo del tablero
+if canvas_result.image_data is not None:
+    st.caption("✨ Tu dibujo aparecerá aquí mientras trabajas.")
+```
