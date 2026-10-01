@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
@@ -9,30 +8,26 @@ st.set_page_config(
     layout="wide"
 )
 
-# Título principal
+# Título
 st.title("🎨 Mi espacio creativo")
-st.write("Un pequeño tablero para dibujar, experimentar y dejar volar la creatividad.")
+st.write("Dibuja, experimenta y crea usando diferentes herramientas, colores y grosores.")
 
-# Panel lateral
-with st.sidebar:
-    st.header("⚙️ Herramientas")
+# -----------------------------
+# CONFIGURACIÓN DEL TABLERO
+# -----------------------------
 
-    # Dimensiones
-    st.subheader("📐 Tamaño del tablero")
+canvas_width = 600
+canvas_height = 400
 
-    canvas_width = 600
-    canvas_height = 400
+# -----------------------------
+# HERRAMIENTAS
+# -----------------------------
 
-    st.write(f"Ancho: **{canvas_width}px**")
-    st.write(f"Alto: **{canvas_height}px**")
+col1, col2, col3 = st.columns(3)
 
-    st.divider()
-
-    # Herramienta
-    st.subheader("🖌️ Herramienta")
-
+with col1:
     drawing_mode = st.selectbox(
-        "Selecciona una herramienta:",
+        "🖌️ Herramienta",
         (
             "freedraw",
             "line",
@@ -53,29 +48,35 @@ with st.sidebar:
         }[herramienta]
     )
 
-    # Grosor
+with col2:
     stroke_width = st.slider(
-        "Grosor del trazo",
+        "📏 Grosor del trazo",
         min_value=1,
         max_value=30,
-        value=5
+        value=5,
+        step=1
     )
 
-    # Colores
-    st.subheader("🎨 Colores")
-
+with col3:
     stroke_color = st.color_picker(
-        "Color del trazo",
+        "🎨 Color del trazo",
         "#FFFFFF"
     )
 
-    bg_color = st.color_picker(
-        "Color del fondo",
-        "#000000"
-    )
+# -----------------------------
+# COLOR DEL FONDO
+# -----------------------------
 
-# Área principal del dibujo
-st.subheader("Tu tablero")
+bg_color = st.color_picker(
+    "🖼️ Color del fondo",
+    "#000000"
+)
+
+# -----------------------------
+# TABLERO
+# -----------------------------
+
+st.subheader("✏️ Tablero")
 
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",
@@ -85,10 +86,13 @@ canvas_result = st_canvas(
     height=canvas_height,
     width=canvas_width,
     drawing_mode=drawing_mode,
-    key=f"canvas_{canvas_width}_{canvas_height}"
+    key="canvas"
 )
 
-# Información debajo del tablero
+# -----------------------------
+# INFORMACIÓN DEL DIBUJO
+# -----------------------------
+
 if canvas_result.image_data is not None:
-    st.caption("✨ Tu dibujo aparecerá aquí mientras trabajas.")
-```
+    st.write("✨ ¡Sigue creando!")
+
