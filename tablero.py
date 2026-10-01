@@ -1,19 +1,25 @@
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
-# Configuración de la página
+# -----------------------------
+# CONFIGURACIÓN DE LA PÁGINA
+# -----------------------------
+
 st.set_page_config(
     page_title="Mi espacio creativo",
     page_icon="🎨",
     layout="wide"
 )
 
-# Título
+# -----------------------------
+# TÍTULO
+# -----------------------------
+
 st.title("🎨 Mi espacio creativo")
-st.write("Dibuja, experimenta y crea usando diferentes herramientas, colores y grosores.")
+st.write("Dibuja y experimenta con diferentes herramientas, colores y grosores.")
 
 # -----------------------------
-# CONFIGURACIÓN DEL TABLERO
+# DIMENSIONES DEL TABLERO
 # -----------------------------
 
 canvas_width = 600
@@ -88,11 +94,4 @@ canvas_result = st_canvas(
     drawing_mode=drawing_mode,
     key="canvas"
 )
-
-# -----------------------------
-# INFORMACIÓN DEL DIBUJO
-# -----------------------------
-
-if canvas_result.image_data is not None:
-    st.write("✨ ¡Sigue creando!")
 
